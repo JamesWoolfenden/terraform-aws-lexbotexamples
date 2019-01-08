@@ -14,5 +14,6 @@ resource "null_resource" "intents" {
     when       = "destroy"
     on_failure = "continue"
   }
-    depends_on = ["null_resource.slot-type"]
+
+  depends_on = ["null_resource.slot-type"]
 }

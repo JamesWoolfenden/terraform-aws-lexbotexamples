@@ -1,5 +1,5 @@
 /*
-On the Create function page, choose Blueprints. 
+On the Create function page, choose Blueprints.
 Type lex- in the filter text box to find the blueprint, choose the lex-order-flowers-python blueprint.
 Type a Lambda function name (OrderFlowersCodeHook).
 
@@ -24,4 +24,3 @@ resource "aws_lambda_function" "OrderFlowersCodeHook" {
     "lambda-console:blueprint" = "lex-order-flowers-python"
   }
 }
-

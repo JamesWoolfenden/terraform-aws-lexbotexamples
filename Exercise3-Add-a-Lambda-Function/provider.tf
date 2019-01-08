@@ -9,12 +9,13 @@ provider "null" {
 }
 
 provider "archive" {
-  version="1.1"
+  version = "1.1"
 }
 
 provider "local" {
-version = "1.1"
+  version = "1.1"
 }
 
 provider "template" {
-  version = "1.0"}
+  version = "1.0"
+}
