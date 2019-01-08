@@ -1,5 +1,24 @@
 # Exercise 3
 ## imports
+
+There's dependency of the lamda permission and the intent. 
+You cant update an intent to point at a lambda that doesnt exist and you cant add permission on lambda for an tent that doesnt exist.
+
+So....
+Obviously an intent has to exist first, just not necessairly the one you actually want.
+from the docs:
+
+> Use the Lambda AddPermission function to enable the OrderFlowers intent to call the Lambda Invoke operation.
+>
+> Use the GetIntent operation to get the intent from Amazon Lex.
+>
+> Update the intent to add the Lambda function.
+>
+> Use the PutIntent operation to send the updated intent back to Amazon Lex.
+>
+> Use the GetBot and PutBot operations to rebuild any bot that uses the intent.
+
+
 Existing objects were imported into terraform state and then reverse engineered:
 ~~~
 terraform import aws_lambda_function.OrderFlowersCodeHook OrderFlowersCodeHook
