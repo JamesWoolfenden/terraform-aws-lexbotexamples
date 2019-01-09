@@ -1,4 +1,8 @@
 resource "null_resource" "bots" {
+  triggers = {
+    rerun = "${uuid()}"
+  }
+
   provisioner "local-exec" {
     command = "aws lex-models put-bot --region ${var.region} --name ${var.bots} --cli-input-json file://${var.bots}.json"
     when    = "create"

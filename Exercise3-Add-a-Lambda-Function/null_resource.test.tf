@@ -1,4 +1,8 @@
 resource "null_resource" "tests" {
+  triggers = {
+    rerun = "${uuid()}"
+  }
+
   provisioner "local-exec" {
     command = "sleep 60 & echo \"sleeping in PID $!\""
     when    = "create"
