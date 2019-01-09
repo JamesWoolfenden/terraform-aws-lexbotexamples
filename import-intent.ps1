@@ -1,8 +1,13 @@
-$env:AWS_PROFILE="saml"
-$allintents=aws lex-models  get-intents|convertfrom-json
-$intentname="OrderFlowers"
+param(
+[string]$region="eu-west-1",
+[string]$intentname="OrderFlowers",
+[string]$profile="saml")
 
-function get-intent {
+$env:AWS_PROFILE=$profile
+$allintents=aws lex-models  get-intents|convertfrom-json
+
+
+function put-intent {
     param(
         [Parameter(Mandatory=$true)]
         [string]$intentname)
@@ -13,11 +18,11 @@ function get-intent {
    {
        if ($allintents.intents|Where-Object {[string]$_.name -eq $intentname})
        {
-           Write-Host "preexisting intents of $botname found"
+           Write-Host "preexisting intents of $intentname found"
            return $False
        }
        #no fAIL
-       return aws lex-models put-intent --region eu-west-1 --name $intentname
+       return aws lex-models put-intent --region $region --name $intentname --cli-input-json file://.\output\$intentname.json
    }
    catch
    {
@@ -26,9 +31,5 @@ function get-intent {
    }
 }
 
-if (!(Test-Path .\output))
-{
-    mkdir output
-}
 
-get-intent -intentname $intentname| set-content .\output\intent-$intentname.json
+put-intent -intentname $intentname

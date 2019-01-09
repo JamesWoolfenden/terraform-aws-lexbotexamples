@@ -1,7 +1,10 @@
-$env:AWS_PROFILE="saml"
+param(
+[string]$slottypename="FlowerTypes",
+[string]$region="eu-west-1",
+[string]$profile="saml")
+
+$env:AWS_PROFILE=$profile
 $allslots=aws lex-models  get-slot-types |convertfrom-json
-$slottypename="FlowerTypes"
-$region="eu-west-1"
 
 function remove-slottypes {
     param(
@@ -23,9 +26,4 @@ function remove-slottypes {
    }
 }
 
-if (!(Test-Path .\output))
-{
-    mkdir output
-}
-
-remove-slottypes -slottypename $slottypename| set-content .\output\slottype-$slottypename.json
+remove-slottypes -slottypename $slottypename

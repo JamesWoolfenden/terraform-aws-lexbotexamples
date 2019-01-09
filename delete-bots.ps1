@@ -1,7 +1,11 @@
-$env:AWS_PROFILE="saml"
+param(
+[string]$botname="OrderFlowersBot",
+[string]$region="eu-west-1",
+[string]$profile="saml")
+
+$env:AWS_PROFILE=$profile
+
 $allbots=aws lex-models  get-bots|convertfrom-json
-$botname="OrderFlowersBot"
-$region="eu-west-1"
 function remove-bot {
     param(
         [Parameter(Mandatory=$true)]
@@ -20,11 +24,6 @@ function remove-bot {
        write-host "$(Get-Date) - $bot Failure"
        exit
    }
-}
-
-if (!(Test-Path .\output))
-{
-    mkdir output
 }
 
 remove-bot -botname $botname

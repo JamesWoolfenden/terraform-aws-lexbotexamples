@@ -1,6 +1,10 @@
-$env:AWS_PROFILE="saml"
+param(
+[string]$intentname="OrderFlowers",
+[string]$region="eu-west-1",
+[string]$profile="saml")
+
+$env:AWS_PROFILE=$profile
 $allintents=aws lex-models  get-intents|convertfrom-json
-$intentname="OrderFlowers"
 
 function remove-intent {
     param(
@@ -13,18 +17,13 @@ function remove-intent {
    {
        $intent=$allintents.intents|Where-Object {[string]$_.name -eq $intentname}
        #no fAIL
-       return aws lex-models delete-intent --region eu-west-1 --name $intentname
+       return aws lex-models delete-intent --region $region --name $intentname
    }
    catch
    {
        write-host "$(Get-Date) - $intent Failure"
        exit
    }
-}
-
-if (!(Test-Path .\output))
-{
-    mkdir output
 }
 
 remove-intent -intentname $intentname

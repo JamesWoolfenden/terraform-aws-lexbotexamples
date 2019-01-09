@@ -1,7 +1,12 @@
-$env:AWS_PROFILE="saml"
+param(
+[string]$botname="OrderFlowersBot",
+[string]$region="eu-west-1",
+[string]$profile="saml")
+
+$env:AWS_PROFILE=$profile
 $allbots=aws lex-models  get-bots|convertfrom-json
-$botname="OrderFlowersBot"
-$region="eu-west-1"
+
+
 function get-bot {
     param(
         [Parameter(Mandatory=$true)]
@@ -27,4 +32,4 @@ if (!(Test-Path .\output))
     mkdir output
 }
 
-get-bot -botname $botname| set-content .\output\bot-$botname.json
+get-bot -botname $botname |convertto-json | set-content .\output\bot-$botname.json -Encoding UTF8

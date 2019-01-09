@@ -1,8 +1,11 @@
-$env:AWS_PROFILE="saml"
+param(
+[string]$region="eu-west-1",
+[string]$botname="OrderFlowersBot",
+[string]$profile="saml")
+$env:AWS_PROFILE=$profile
 $allbots=aws lex-models  get-bots|convertfrom-json
-$botname="OrderFlowersBot"
-$region="eu-west-1"
-function put-bot {
+
+function add-bot {
     param(
         [Parameter(Mandatory=$true)]
         [string]$botname)
@@ -13,8 +16,8 @@ function put-bot {
    {
        $bot=$allbots.bots|Where-Object {[string]$_.name -eq $botname}
        #no fAIL
-       return aws lex-models put-bot --region $region --name $botname --locale en-US --no-child-directed
-   }
+       return aws lex-models put-bot --region $region --name $botname --locale en-US --no-child-directed --cli-input-json file://.\output\$botname.json
+    }
    catch
    {
        write-host "$(Get-Date) - $bot Failure"
@@ -22,9 +25,5 @@ function put-bot {
    }
 }
 
-if (!(Test-Path .\output))
-{
-    mkdir output
-}
 
-put-bot -botname $botname
+add-bot -botname $botname

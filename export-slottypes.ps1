@@ -1,7 +1,10 @@
-$env:AWS_PROFILE="saml"
+param(
+[string]$region="eu-west-1",
+[string]$slottypename="FlowerTypes",
+[string]$profile="saml")
+
+$env:AWS_PROFILE=$profile
 $allslots=aws lex-models  get-slot-types |convertfrom-json
-$slottypename="FlowerTypes"
-$region="eu-west-1"
 
 function get-slottypes {
     param(
@@ -28,4 +31,4 @@ if (!(Test-Path .\output))
     mkdir output
 }
 
-get-slottypes -slottypename $slottypename| set-content .\output\slottype-$slottypename.json
+get-slottypes -slottypename $slottypename| set-content .\output\slottype-$slottypename.json -Encoding UTF8

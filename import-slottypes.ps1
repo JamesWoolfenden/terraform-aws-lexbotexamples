@@ -1,7 +1,10 @@
-$env:AWS_PROFILE="saml"
+param(
+[string]$region="eu-west-1",
+[string]$slottypename="FlowerTypes",
+[string]$profile="saml")
+
+$env:AWS_PROFILE=$profile
 $allslots=aws lex-models  get-slot-types |convertfrom-json
-$slottypename="FlowerTypes"
-$region="eu-west-1"
 
 function put-slottypes {
     param(
@@ -18,7 +21,7 @@ function put-slottypes {
            return $False
        }
        #no fAIL
-       return aws lex-models put-slot-type --region $region --name $slottypename
+       return aws lex-models put-slot-type --region $region --name $slottypename --cli-input-json file://.\output\$slottypename.json
    }
    catch
    {
@@ -27,9 +30,5 @@ function put-slottypes {
    }
 }
 
-if (!(Test-Path .\output))
-{
-    mkdir output
-}
 
 put-slottypes -slottypename $slottypename
