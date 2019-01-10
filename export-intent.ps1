@@ -6,6 +6,8 @@ param(
 $env:AWS_PROFILE=$profile
 $allintents=aws lex-models  get-intents|convertfrom-json
 
+Write-host "$(Get-Date) - Region:     $region"
+Write-host "$(Get-Date) - IntentName: $intentname"
 
 function get-intent {
     param(
@@ -18,8 +20,14 @@ function get-intent {
    {
        $intent=$allintents.intents|Where-Object {[string]$_.name -eq $intentname}
        #no fAIL
-       return aws lex-models get-intent --region $region --name $intentname --intent-version '$LATEST'
-   }
+
+       $intent=aws lex-models get-intent --region $region --name $intentname --intent-version '$LATEST'
+       $intent=$intent|Where-Object {$_ -notmatch '"version"'}
+       $intent=$intent|Where-Object {$_ -notmatch 'lastUpdatedDate'}
+       $intent=$intent|Where-Object {$_ -notmatch 'createdDate'}
+       $intent=$intent|Where-Object {$_ -notmatch 'checksum'}
+       return $intent
+    }
    catch
    {
        write-host "$(Get-Date) - $intent Failure"
@@ -32,4 +40,5 @@ if (!(Test-Path .\output))
     mkdir output
 }
 
-get-intent -intentname $intentname | set-content .\output\intent-$intentname.json  -Encoding UTF8 -
+Write-Host "$(get-date) - Writing out intent to .\output\$intentname.json"
+get-intent -intentname $intentname  | set-content .\output\$intentname.json  -Encoding Ascii

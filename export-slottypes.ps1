@@ -17,8 +17,14 @@ function get-slottypes {
    {
        $slottype=$allslots.slotTypes|Where-Object {[string]$_.name -eq $slottypename}
        #no fAIL
-       return aws lex-models get-slot-type --region $region --name $slottypename --slot-type-version '$LATEST'
-   }
+       $slots=aws lex-models get-slot-type --region $region --name $slottypename --slot-type-version '$LATEST'
+       $slots=$slots|Where-Object {$_ -notmatch 'version'}
+       $slots=$slots|Where-Object {$_ -notmatch 'lastUpdatedDate'}
+       $slots=$slots|Where-Object {$_ -notmatch 'createdDate'}
+       $slots=$slots|Where-Object {$_ -notmatch 'checksum'}
+
+       return $slots
+    }
    catch
    {
        write-host "$(Get-Date) - $slottype Failure"
@@ -31,4 +37,4 @@ if (!(Test-Path .\output))
     mkdir output
 }
 
-get-slottypes -slottypename $slottypename| set-content .\output\slottype-$slottypename.json -Encoding UTF8
+get-slottypes -slottypename $slottypename | set-content .\output\$slottypename.json -Encoding Ascii

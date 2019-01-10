@@ -6,6 +6,8 @@ param(
 $env:AWS_PROFILE=$profile
 $allslots=aws lex-models  get-slot-types |convertfrom-json
 
+Write-host "Region:       $region"
+Write-host "slottypename: $slottypename"
 function remove-slottypes {
     param(
         [Parameter(Mandatory=$true)]
@@ -17,11 +19,17 @@ function remove-slottypes {
    {
        $slottype=$allslots.slotTypes|Where-Object {[string]$_.name -eq $slottypename}
        #no fAIL
-       return aws lex-models delete-slot-type --region $region --name $slottypename
+       $result=aws lex-models delete-slot-type --region $region --name $slottypename
+       If ($lastexitcode)
+       {
+           throw "Delete Failure:$result"
+       }
+       return $result
    }
    catch
    {
-       write-host "$(Get-Date) - $slottype Failure"
+       $_
+       write-host "$(Get-Date) - Delete $slottypename Failure"
        exit
    }
 }

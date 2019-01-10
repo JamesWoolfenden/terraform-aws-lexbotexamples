@@ -6,6 +6,9 @@ param(
 $env:AWS_PROFILE=$profile
 $allslots=aws lex-models  get-slot-types |convertfrom-json
 
+Write-host "Region:       $region"
+Write-host "slottypename: $slottypename"
+
 function put-slottypes {
     param(
         [Parameter(Mandatory=$true)]
@@ -17,12 +20,19 @@ function put-slottypes {
    {
        if ($allslots.slotTypes|Where-Object {[string]$_.name -eq $slottypename})
        {
-           Write-Host "preexisting slot of $slottypename found"
+           Write-Host "$(get-date) - preexisting slot of $slottypename found"
            return $False
        }
        #no fAIL
-       return aws lex-models put-slot-type --region $region --name $slottypename --cli-input-json file://.\output\$slottypename.json
-   }
+
+       $result=aws lex-models put-slot-type --region $region --name $slottypename --cli-input-json file://.\output\$slottypename.json
+       if ($lastexcode)
+       {
+           throw "Slot write failure"
+       }
+       Write-Host "$(get-date) - Slot $slottypename written"
+       return $result
+    }
    catch
    {
        write-host "$(Get-Date) - $slottype Failure"

@@ -6,6 +6,8 @@ param(
 $env:AWS_PROFILE=$profile
 $allintents=aws lex-models  get-intents|convertfrom-json
 
+Write-host "$(Get-Date) - Region:     $region"
+Write-host "$(Get-Date) - IntentName: $intentname"
 
 function put-intent {
     param(
@@ -18,15 +20,22 @@ function put-intent {
    {
        if ($allintents.intents|Where-Object {[string]$_.name -eq $intentname})
        {
-           Write-Host "preexisting intents of $intentname found"
+           Write-Host "$(get-date) - preexisting intents of $intentname found"
            return $False
        }
-       #no fAIL
-       return aws lex-models put-intent --region $region --name $intentname --cli-input-json file://.\output\$intentname.json
+       #no fAIL --create-version
+       $result=aws lex-models put-intent --region $region --name $intentname  --cli-input-json file://.\output\$intentname.json
+
+       if ($lastexitcode)
+       {
+          throw "$lastexitcode import failure"
+       }
+       Write-Host "$(get-date) - Intent $intentname written"
+       return $result
    }
    catch
    {
-       write-host "$(Get-Date) - $intent Failure"
+       write-host "$(Get-Date) - $intentname Failure"
        exit
    }
 }

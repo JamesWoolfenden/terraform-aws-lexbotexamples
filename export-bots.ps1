@@ -32,4 +32,4 @@ if (!(Test-Path .\output))
     mkdir output
 }
 
-get-bot -botname $botname |convertto-json | set-content .\output\bot-$botname.json -Encoding UTF8
+get-bot -botname $botname | set-content .\output\$botname.json -Encoding Ascii
