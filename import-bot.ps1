@@ -17,8 +17,12 @@ function add-bot {
 
    try
    {
-       $bot=$allbots.bots|Where-Object {[string]$_.name -eq $botname}
-       #no fAIL
+       if($allbots.bots|Where-Object {[string]$_.name -eq $botname})
+       {
+           Write-Host "$(get-date) - preexisting bot of $botname found"
+           exit
+       }
+
        $result= aws lex-models put-bot --region $region --name $botname --locale en-US --no-child-directed --cli-input-json file://.\output\$botname.json
        if ($lastexitcode)
        {

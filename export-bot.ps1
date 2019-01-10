@@ -17,9 +17,13 @@ function get-bot {
 
    try
    {
-       $bot=$allbots.bots|Where-Object {[string]$_.name -eq $botname}
-       #no fAIL
+       if (!($allbots.bots|Where-Object {[string]$_.name -eq $botname}))
+       {
+           Write-Host "$(get-date) - no existing bots of $botname found"
+           exit
+       }
        $result=aws lex-models get-bot --region $region --name $botname --version-or-alias '$LATEST'
+       Write-host "$(get-date) - Get bot details $($bot.name)"
        if ($lastexitcode)
        {
            throw "Failed to get bot $botname"

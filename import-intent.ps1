@@ -21,9 +21,10 @@ function put-intent {
        if ($allintents.intents|Where-Object {[string]$_.name -eq $intentname})
        {
            Write-Host "$(get-date) - preexisting intents of $intentname found"
-           return $False
+           exit
        }
-       #no fAIL --create-version
+
+
        $result=aws lex-models put-intent --region $region --name $intentname  --cli-input-json file://.\output\$intentname.json
 
        if ($lastexitcode)

@@ -21,7 +21,7 @@ function update-intent {
        if (!($allintents.intents|Where-Object {[string]$_.name -eq $intentname}))
        {
            Write-Host "$(get-date) - no existing intents of $intentname found"
-           return $False
+           exit
        }
        $intent=aws lex-models get-intent --region $region --name $intentname --intent-version '$LATEST'|ConvertFrom-Json
 

@@ -23,7 +23,6 @@ function put-slottypes {
            Write-Host "$(get-date) - preexisting slot of $slottypename found"
            return $False
        }
-       #no fAIL
 
        $result=aws lex-models put-slot-type --region $region --name $slottypename --cli-input-json file://.\output\$slottypename.json
        if ($lastexcode)

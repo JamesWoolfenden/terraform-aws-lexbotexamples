@@ -21,7 +21,7 @@ function update-slottypes {
        if (!($allslots.slotTypes|Where-Object {[string]$_.name -eq $slottypename}))
        {
           Write-Host "$(get-date) - no existing slot of $slottypename found"
-          return $False
+          exit
        }
 
        $slot=aws lex-models get-slot-type --region $region --name $slottypename --slot-type-version '$LATEST'|convertfrom-json
