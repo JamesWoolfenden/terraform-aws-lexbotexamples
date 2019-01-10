@@ -6,8 +6,8 @@ param(
 $env:AWS_PROFILE=$profile
 $allslots=aws lex-models  get-slot-types |convertfrom-json
 
-Write-host "Region:       $region"
-Write-host "slottypename: $slottypename"
+Write-host "$(Get-Date) - Region:       $region"
+Write-host "$(Get-Date) - slottypename: $slottypename"
 
 function put-slottypes {
     param(

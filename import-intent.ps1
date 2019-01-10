@@ -28,7 +28,7 @@ function put-intent {
 
        if ($lastexitcode)
        {
-          throw "$lastexitcode import failure"
+          throw "$lastexitcode import intent failure"
        }
        Write-Host "$(get-date) - Intent $intentname written"
        return $result
