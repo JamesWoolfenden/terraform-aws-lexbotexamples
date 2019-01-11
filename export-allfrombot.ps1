@@ -8,7 +8,7 @@ $allbots=aws lex-models  get-bots|convertfrom-json
 
 Write-host "$(Get-Date) - Region:     $region"
 Write-host "$(Get-Date) - BotName:    $botname"
-function get-bot {
+function get-intentsfrombot {
     param(
         [Parameter(Mandatory=$true)]
         [string]$botname)
@@ -20,27 +20,25 @@ function get-bot {
            Write-Host "$(get-date) - no existing bots of $botname found"
            exit
        }
-       $result=aws lex-models get-bot --region $region --name $botname --version-or-alias '$LATEST'
+
+       .\export-bot.ps1 -botname $botname -region $region
+
+       $result=aws lex-models get-bot --region $region --name $botname --version-or-alias '$LATEST'|ConvertFrom-Json
        Write-host "$(get-date) - Get bot details $($bot.name)"
        if ($lastexitcode)
        {
            throw "Failed to get bot $botname"
        }
 
-       $result=$result|Where-Object {$_ -notmatch '"version"'}
-       $result=$result|Where-Object {$_ -notmatch '"status"'}
-       $result=$result|Where-Object {$_ -notmatch 'lastUpdatedDate'}
-       $result=$result|Where-Object {$_ -notmatch 'createdDate'}
-       $result=$result|Where-Object {$_ -notmatch 'checksum'}
-
-       $result| set-content .\output\bot\$botname.json -Encoding Ascii
-       write-host "$(Get-Date) - $botname exported"
-       return
-   }
+       foreach($intent in $result.intents.intentName){
+           .\export-intent.ps1 -region $region -intentname $intent
+           .\export-slotfromintent.ps1 -region $region -intentname $intent
+       }
+    }
    catch
    {
        $_
-       write-host "$(Get-Date) - $botname export failure"
+       write-host "$(Get-Date) - $intent Failure"
        exit
    }
 }
@@ -50,10 +48,4 @@ if (!(Test-Path .\output))
     mkdir output
 }
 
-if (!(Test-Path .\output\bot))
-{
-    mkdir output\bot
-}
-
-
-get-bot -botname $botname
+get-intentsfrombot -botname $botname

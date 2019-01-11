@@ -9,12 +9,10 @@ $allintents=aws lex-models  get-intents|convertfrom-json
 Write-host "$(Get-Date) - Region:     $region"
 Write-host "$(Get-Date) - IntentName: $intentname"
 
-function update-intent {
+function get-slotsfromintent {
     param(
         [Parameter(Mandatory=$true)]
         [string]$intentname)
-
-   [string]$intent
 
    try
    {
@@ -23,25 +21,27 @@ function update-intent {
            Write-Host "$(get-date) - no existing intents of $intentname found"
            exit
        }
+
        $intent=aws lex-models get-intent --region $region --name $intentname --intent-version '$LATEST'|ConvertFrom-Json
 
-       $result=aws lex-models put-intent --region $region --name $intentname --checksum $($intent.checksum) --cli-input-json file://.\output\intent\$intentname.json
-
-       if ($lastexitcode)
+       foreach($slot in $intent.slots.slottype)
        {
-          throw "$lastexitcode import write failure"
+           .\export-slottypes.ps1 -region $region -slottypename $slot
        }
 
-       Write-Host "$(get-date) - Intent $intentname updated"
-       return $result
-   }
+       return
+    }
    catch
    {
        $_
-       write-host "$(Get-Date) - $intentname update Failure"
+       write-host "$(Get-Date) - $intent Failure"
        exit
    }
 }
 
+if (!(Test-Path .\output))
+{
+    mkdir output
+}
 
-update-intent -intentname $intentname
+get-slotsfromintent -intentname $intentname

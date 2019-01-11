@@ -13,8 +13,6 @@ function get-slottypes {
         [Parameter(Mandatory=$true)]
         [string]$slottypename)
 
-   [string]$intent
-
    try
    {
        if (!($allslots.slotTypes|Where-Object {[string]$_.name -eq $slottypename}))
@@ -35,7 +33,7 @@ function get-slottypes {
        $slots=$slots|Where-Object {$_ -notmatch 'createdDate'}
        $slots=$slots|Where-Object {$_ -notmatch 'checksum'}
 
-       $slots| set-content .\output\$slottypename.json -Encoding Ascii
+       $slots| set-content .\output\slottypes\$slottypename.json -Encoding Ascii|Out-Null
        write-host "$(Get-Date) - $slottypename exported"
        return
     }
@@ -50,6 +48,11 @@ function get-slottypes {
 if (!(Test-Path .\output))
 {
     mkdir output
+}
+
+if (!(Test-Path .\output\slottypes))
+{
+    mkdir output\slottypes
 }
 
 get-slottypes -slottypename $slottypename

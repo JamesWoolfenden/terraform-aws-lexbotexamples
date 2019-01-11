@@ -23,7 +23,7 @@ function add-bot {
            exit
        }
 
-       $result= aws lex-models put-bot --region $region --name $botname --locale en-US --no-child-directed --cli-input-json file://.\output\$botname.json
+       $result= aws lex-models put-bot --region $region --name $botname --locale en-US --no-child-directed --cli-input-json file://.\output\bot\$botname.json
        if ($lastexitcode)
        {
           throw "$lastexitcode import bot failure"

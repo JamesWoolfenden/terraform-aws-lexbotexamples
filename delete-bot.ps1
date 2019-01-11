@@ -13,8 +13,6 @@ function remove-bot {
         [Parameter(Mandatory=$true)]
         [string]$botname)
 
-   [string]$bot
-
    try
    {
        $bot=$allbots.bots|Where-Object {[string]$_.name -eq $botname}

@@ -25,7 +25,7 @@ function update-bot {
        $bot=aws lex-models get-bot --region $region --name $botname --version-or-alias '$LATEST'|convertfrom-json
        Write-host "$(get-date) - Get bot details $($bot.name)"
 
-       $result=aws lex-models put-bot --region $region --name $botname --checksum $($bot.checksum) --locale en-US --no-child-directed --cli-input-json file://.\output\$botname.json
+       $result=aws lex-models put-bot --region $region --name $botname --checksum $($bot.checksum) --locale en-US --no-child-directed --cli-input-json file://.\output\bot\$botname.json
        if ($lastexitcode)
        {
           throw "$lastexitcode update bot failure"

@@ -27,7 +27,7 @@ function update-slottypes {
        $slot=aws lex-models get-slot-type --region $region --name $slottypename --slot-type-version '$LATEST'|convertfrom-json
        Write-host "$(get-date) - Get slot details $($slot.name)"
 
-       $result=aws lex-models put-slot-type --region $region --checksum $($slot.checksum) --name $slottypename --cli-input-json file://.\output\$slottypename.json
+       $result=aws lex-models put-slot-type --region $region --checksum $($slot.checksum) --name $slottypename --cli-input-json file://.\output\slottypes\$slottypename.json
        if ($lastexitcode)
        {
            throw "Slot write failure"

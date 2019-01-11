@@ -25,7 +25,7 @@ function put-intent {
        }
 
 
-       $result=aws lex-models put-intent --region $region --name $intentname  --cli-input-json file://.\output\$intentname.json
+       $result=aws lex-models put-intent --region $region --name $intentname  --cli-input-json file://.\output\intent\$intentname.json
 
        if ($lastexitcode)
        {

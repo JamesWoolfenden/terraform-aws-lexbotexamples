@@ -14,8 +14,6 @@ function get-intent {
         [Parameter(Mandatory=$true)]
         [string]$intentname)
 
-   [string]$intent
-
    try
    {
        if (!($allintents.intents|Where-Object {[string]$_.name -eq $intentname}))
@@ -36,7 +34,7 @@ function get-intent {
        $intent=$intent|Where-Object {$_ -notmatch 'createdDate'}
        $intent=$intent|Where-Object {$_ -notmatch 'checksum'}
 
-       $intent|set-content .\output\$intentname.json  -Encoding Ascii
+       $intent|set-content .\output\intent\$intentname.json  -Encoding Ascii
        write-host "$(Get-Date) - $intentname exported"
        return
     }
@@ -51,6 +49,11 @@ function get-intent {
 if (!(Test-Path .\output))
 {
     mkdir output
+}
+
+if (!(Test-Path .\output\intent))
+{
+    mkdir output\intent
 }
 
 get-intent -intentname $intentname
