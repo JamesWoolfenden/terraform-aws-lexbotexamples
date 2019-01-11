@@ -14,8 +14,6 @@ function put-intent {
         [Parameter(Mandatory=$true)]
         [string]$intentname)
 
-   [string]$intent
-
    try
    {
        if ($allintents.intents|Where-Object {[string]$_.name -eq $intentname})

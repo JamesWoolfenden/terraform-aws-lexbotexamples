@@ -13,8 +13,6 @@ function add-bot {
         [Parameter(Mandatory=$true)]
         [string]$botname)
 
-   [string]$bot
-
    try
    {
        if($allbots.bots|Where-Object {[string]$_.name -eq $botname})

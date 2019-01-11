@@ -26,9 +26,11 @@ function get-slotsfromintent {
 
        foreach($slot in $intent.slots.slottype)
        {
-           .\export-slottypes.ps1 -region $region -slottypename $slot
-       }
-
+           if ($slot -ne "Boolean")
+           {
+              .\export-slottypes.ps1 -region $region -slottypename $slot
+            }
+        }
        return
     }
    catch

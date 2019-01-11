@@ -13,17 +13,19 @@ function remove-slottypes {
         [Parameter(Mandatory=$true)]
         [string]$slottypename)
 
-   [string]$intent
-
    try
    {
        $slottype=$allslots.slotTypes|Where-Object {[string]$_.name -eq $slottypename}
        #no fAIL
        $result=aws lex-models delete-slot-type --region $region --name $slottypename
+
        If ($lastexitcode)
        {
            throw "Delete Failure:$result"
        }
+
+       write-host "$(Get-Date) - $slottypename Deleted"
+
        return $result
    }
    catch

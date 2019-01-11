@@ -14,8 +14,6 @@ function put-slottypes {
         [Parameter(Mandatory=$true)]
         [string]$slottypename)
 
-   [string]$intent
-
    try
    {
        if ($allslots.slotTypes|Where-Object {[string]$_.name -eq $slottypename})
