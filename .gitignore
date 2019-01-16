@@ -3,3 +3,5 @@
 *.backup
 *.tfstate
 output/
+*.config
+node_modules
