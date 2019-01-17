@@ -26,6 +26,7 @@ const OMIT_DATA = [
 ];
 
 const STATUS_EXPORT_SUCCESS = 'successfully exported';
+const STATUS_GET_DETAILS = 'get details';
 const STATUS_NO_RESOURCE_SPECIFIED = 'no resource argument specified';
 const STATUS_NOT_FOUND = 'could not get details of';
 
@@ -40,16 +41,26 @@ const stampMessage = rawMessage => {
 };
 
 const initializeLog = resourceName => {
-  console.log(green(`${now()} Region: ${blue.bold(REGION)}`));
-  console.log(green(`${now()} Bot Name: ${blue.bold(resourceName)}`));
+  console.log(
+    green(`${now()} Region: ${blue.bold(REGION)}`)
+  );
+  console.log(
+    green(`${now()} Bot Name: ${blue.bold(resourceName)}`)
+  );
 };
 
 const getSingleResource = async resourceName => {
   if (!resourceName) {
-    throw new Error(stampMessage(STATUS_NO_RESOURCE_SPECIFIED));
+    throw new Error(
+      stampMessage(STATUS_NO_RESOURCE_SPECIFIED)
+    );
   }
 
   try {
+    console.log(
+      stampMessage([STATUS_GET_DETAILS, resourceName])
+    );
+
     const { stdout } = await execa('aws', [
       'lex-models', 'get-bot',
       '--name', resourceName,
@@ -59,11 +70,14 @@ const getSingleResource = async resourceName => {
 
     return stdout;
   } catch (e) {
-    throw new Error(stampMessage([STATUS_NOT_FOUND, resourceName]));
+    throw new Error(
+      stampMessage([STATUS_NOT_FOUND, resourceName])
+    );
   }
 };
 
-const filterData = (data, filter = OMIT_DATA) => omit(data, filter);
+const filterData =
+  (data, filter = OMIT_DATA) => omit(data, filter);
 
 const writeData = data => {
   const { name } = data;
@@ -77,13 +91,12 @@ const writeData = data => {
 
   writeFile(fileName, content);
 
+  console.log(
+    stampMessage([STATUS_EXPORT_SUCCESS, name])
+  );
+
   return data;
 };
-
-const logSuccessMessage = resourceName =>
-  console.log(
-    stampMessage([STATUS_EXPORT_SUCCESS, resourceName])
-  );
 
 const error = e => console.log(red(e));
 
@@ -96,7 +109,5 @@ module.exports = resourceName => {
     writeData
   ];
 
-  promiseSeries(procedure)
-    .then(() => logSuccessMessage(resourceName))
-    .catch(error);
+  promiseSeries(procedure).catch(error);
 };
