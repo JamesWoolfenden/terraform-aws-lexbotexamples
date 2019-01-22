@@ -9,7 +9,7 @@ const getDate = require('./utils/get-date');
 const REGION = 'eu-west-1';
 const VERSION = '$LATEST';
 
-const writeHost = console.log;
+const writeHost = require('./utils/write-host');
 const getSingleResource = (resourceTypeSingle, resourceName) =>
   execute(`aws lex-models get-${resourceTypeSingle} --region ${REGION} --name ${resourceName} ${VERSION_FLAGS[resourceTypeSingle]} ${VERSION}`);
 

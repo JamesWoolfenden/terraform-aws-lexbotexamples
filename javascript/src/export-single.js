@@ -2,7 +2,7 @@ const getSingle = require('./get-single');
 const getDate = require('./utils/get-date');
 const writeFile = require('./utils/write-file');
 
-const writeHost = console.log;
+const writeHost = require('./utils/write-host');
 
 async function getResource (resourceTypeSingle, resourceName) {
   try {

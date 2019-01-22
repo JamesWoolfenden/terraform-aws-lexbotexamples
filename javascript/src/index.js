@@ -1,12 +1,36 @@
-const { EXPORT, EXPORT_ALL_FROM } = require('./config/action.types');
-const { BOT, INTENT } = require('./config/resource.types');
+const { red } = require('chalk');
+
+const ACTION_TYPES = require('./config/action.types');
+const RESOURCE_TYPES = require('./config/resource.types');
 const exportAllFromBot = require('./export-allfrombot');
 const exportSingle = require('./export-single');
 const exportSlotFromIntent = require('./export-slotfromintent');
+const writeHost = require('./utils/write-host');
 
 const actionType = process.argv[2];
 const resourceType = process.argv[3];
 const resourceName = process.argv[4];
+
+const { EXPORT, EXPORT_ALL_FROM } = ACTION_TYPES;
+const { BOT, INTENT } = RESOURCE_TYPES;
+
+const actionList = Object.values(ACTION_TYPES);
+if (!actionList.includes(actionType)) {
+  writeHost(red('Unkown Action type'));
+  writeHost('Acceptable values are:');
+  actionList.map(v => writeHost(`- ${v}`));
+
+  process.exit(1);
+}
+
+const resourceList = Object.values(RESOURCE_TYPES);
+if (!resourceList.includes(resourceType)) {
+  writeHost(red('Unkown Resource type'));
+  writeHost('Acceptable values are:');
+  resourceList.map(v => writeHost(`- ${v}`));
+
+  process.exit(1);
+}
 
 (async function routine () {
   if (actionType === EXPORT_ALL_FROM &&
@@ -26,5 +50,5 @@ const resourceName = process.argv[4];
     return;
   }
 
-  console.log('unknown');
+  console.log('Unknown Command');
 })();
