@@ -2,6 +2,13 @@
 
 Node implementation of the lex API.
 
+## Commands
+
+command | option | action
+--- | --- | ---
+export-all-from | [bot/slot] | exports all data
+export | [bot/slot/intent] | exports single
+
 ## To Run
 
 Please use [nvm] or [nvm-windows].
@@ -14,10 +21,13 @@ nvm use
 npm i
 
 # Developing with hot reload
-# npm run dev -- <relative-file-path>
-npm run dev -- src/export-intents.js
+# npm run dev -- command option resource-name
+npm run dev export-all-from bot AskWilbur
 
-# For a full list of commands please see package.json
+# Production
+npm start export-all-from bot AskWilbur
+
+# For a full list of commands please see above
 ```
 
 <!-- REFERENCES -->

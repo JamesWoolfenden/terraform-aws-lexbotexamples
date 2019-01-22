@@ -1,5 +1,6 @@
 const path = require('path');
 const write = require('write');
+const stringify = require('json-stringify-pretty-compact');
 
 const ENCODING = 'utf8';
 const ERROR_INVALID_FILE_PATH = 'File path must be an Array type';
@@ -10,8 +11,9 @@ const writer = (filePath, content) => {
   }
 
   const safeFilePath = path.join(...filePath);
+  const contentString = stringify(content);
 
-  return write(safeFilePath, content, { encoding: ENCODING });
+  return write(safeFilePath, contentString, { encoding: ENCODING });
 };
 
 module.exports = writer;
