@@ -1,6 +1,6 @@
+const stringify = require('json-stringify-pretty-compact');
 const path = require('path');
 const write = require('write');
-const stringify = require('json-stringify-pretty-compact');
 
 const ENCODING = 'utf8';
 const ERROR_INVALID_FILE_PATH = 'File path must be an Array type';

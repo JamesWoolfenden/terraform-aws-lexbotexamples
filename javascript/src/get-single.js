@@ -1,27 +1,17 @@
-const execute = require('./utils/execute');
-const getDate = require('./utils/get-date');
 const omit = require('lodash/omit');
 const { blue, green, red } = require('chalk');
+
+const OMIT_DATA = require('./config/omit-data');
+const VERSION_FLAGS = require('./config/version-flags');
+const execute = require('./utils/execute');
+const getDate = require('./utils/get-date');
 
 const REGION = 'eu-west-1';
 const VERSION = '$LATEST';
 
-const OMIT_DATA = [
-  'version',
-  'status',
-  'lastUpdatedDate',
-  'createdDate',
-  'checksum'
-];
-
-const versionConfig = {
-  bot: '--version-or-alias',
-  intent: '--intent-version',
-  'slot-type': '--slot-type-version'
-};
-
 const writeHost = console.log;
-const getSingleResource = (resourceTypeSingle, resourceName) => execute(`aws lex-models get-${resourceTypeSingle} --region ${REGION} --name ${resourceName} ${versionConfig[resourceTypeSingle]} ${VERSION}`);
+const getSingleResource = (resourceTypeSingle, resourceName) =>
+  execute(`aws lex-models get-${resourceTypeSingle} --region ${REGION} --name ${resourceName} ${VERSION_FLAGS[resourceTypeSingle]} ${VERSION}`);
 
 async function getSingle (resourceTypeSingle, resourceName, write = true) {
   const resourceType = `${resourceTypeSingle}s`;

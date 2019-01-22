@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --ignore output",
+    "dev": "nodemon --ignore output src",
     "start": "node src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

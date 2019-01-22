@@ -5,7 +5,7 @@ module.exports = async execString => {
 
   const command = splitExecCommand[0];
   const flags = splitExecCommand.slice(1);
-  // console.log(execString);
+
   try {
     const { stdout } = await execa(command, flags);
     return stdout;
