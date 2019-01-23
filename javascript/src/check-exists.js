@@ -4,10 +4,9 @@ const writeHost = require('./utils/write-host');
 
 const getAllResource = require('./get-all');
 
-async function isExists (resourceTypeSingle, resourceName) {
-  writeHost(`check ${resourceTypeSingle} ${resourceName} exists`);
-
+async function checkExists (resourceTypeSingle, resourceName) {
   const resourceType = `${resourceTypeSingle}s`;
+  writeHost(`check ${resourceTypeSingle} ${resourceName} exists`);
 
   try {
     const singleResource = await getAllResource(resourceTypeSingle, resourceName);
@@ -27,4 +26,4 @@ async function isExists (resourceTypeSingle, resourceName) {
   }
 }
 
-module.exports = isExists;
+module.exports = checkExists;

@@ -1,4 +1,5 @@
 const { blue, green } = require('chalk');
+const checkExists = require('./check-exists');
 
 const REGION = require('./config/region');
 const {
@@ -30,6 +31,8 @@ async function deleteSingle (resourceType, resourceName, aliasName) {
   writeHost(green(`${resourceType} Name: ${resourceName}`));
 
   try {
+    await checkExists(resourceType, resourceName);
+
     const data = await deleteSingleResource(resourceType, resourceName, aliasName);
 
     writeHost(`${resourceType} ${resourceName} deleted`);

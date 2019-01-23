@@ -6,6 +6,7 @@ const REGION = require('./config/region');
 const writeHost = require('./utils/write-host');
 
 const getSingleUnfiltered = require('./get-single-unfiltered');
+const checkExists = require('./check-exists');
 
 async function getSingle (resourceTypeSingle, resourceName) {
   const resourceType = `${resourceTypeSingle}s`;
@@ -14,6 +15,8 @@ async function getSingle (resourceTypeSingle, resourceName) {
   writeHost(green(`${resourceType} Name: ${resourceName}`));
 
   try {
+    await checkExists(resourceTypeSingle, resourceName);
+
     writeHost(`Get ${resourceTypeSingle} details ${resourceName}`);
 
     const singleResource = await getSingleUnfiltered(resourceTypeSingle, resourceName);

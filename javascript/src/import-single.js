@@ -9,6 +9,8 @@ const { BOT } = require('./config/resource.types');
 const execute = require('./utils/execute');
 const writeHost = require('./utils/write-host');
 
+const checkExists = require('./check-exists');
+
 const additionalFlags = {
   [BOT]: `--locale ${EN_US} --no-child-directed`
 };
@@ -24,6 +26,7 @@ async function importSingle (resourceType, resourceName) {
   writeHost(green(`${resourceType} Name: ${resourceName}`));
 
   try {
+    await checkExists(resourceType, resourceName);
     const data = await putSingleResource(resourceType, resourceName);
 
     writeHost(`${resourceType} ${resourceName} imported`);
