@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --ignore output src",
+    "lint": "semistandard --verbose | snazzy",
     "start": "node src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,7 +20,7 @@
     "write": "^1.0.3"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9",
-    "semistandard": "^13.0.1"
+    "semistandard": "*",
+    "snazzy": "^8.0.0"
   }
 }

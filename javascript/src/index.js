@@ -34,7 +34,10 @@ function checkList (list, type) {
   if (!resourceList.includes(type)) {
     writeHost(red(ERROR_UNKOWN_RESOURCE_TYPE));
     writeHost(MESSAGE_ACCEPTABLE_VALUES);
-    resourceList.map(value => writeHost(`- ${value}`));
+
+    resourceList.map(value =>
+      writeHost(`- ${value}`)
+    );
 
     process.exit(1);
   }
