@@ -6,6 +6,7 @@ const { BOT } = require('./config/resource.types');
 const execute = require('./utils/execute');
 const getDate = require('./utils/get-date');
 const writeHost = require('./utils/write-host');
+const getSingleUnfiltered = require('./get-single-unfiltered');
 
 const REGION = 'eu-west-1';
 const EN_US = 'en-US';
@@ -14,10 +15,10 @@ const additionalFlags = {
   [BOT]: `--locale ${EN_US} --no-child-directed`
 };
 
-const putSingleResource = (resourceTypeSingle, resourceName) => {
+const putSingleResource = (resourceTypeSingle, resourceName, resourceChecksum) => {
   const filePath = path.join(process.env.PWD, ...OUTPUT, resourceTypeSingle, `${resourceName}.json`);
 
-  return execute(`aws lex-models put-${resourceTypeSingle} --region ${REGION} --name ${resourceName} ${additionalFlags[resourceTypeSingle] || ''} --cli-input-json file://${filePath}`);
+  return execute(`aws lex-models put-${resourceTypeSingle} --region ${REGION} --name ${resourceName} --checksum ${resourceChecksum} ${additionalFlags[resourceTypeSingle] || ''} --cli-input-json file://${filePath}`);
 };
 
 async function importSingle (resourceType, resourceName) {
@@ -25,9 +26,10 @@ async function importSingle (resourceType, resourceName) {
   writeHost(green(`${getDate()} ${resourceType} Name: ${resourceName}`));
 
   try {
-    const data = await putSingleResource(resourceType, resourceName);
+    const { checksum } = await getSingleUnfiltered(resourceType, resourceName);
+    const data = await putSingleResource(resourceType, resourceName, checksum);
 
-    writeHost(`${getDate()} ${resourceType} ${resourceName} imported`);
+    writeHost(`${getDate()} ${resourceType} ${resourceName} updated`);
 
     return data;
   } catch (e) {

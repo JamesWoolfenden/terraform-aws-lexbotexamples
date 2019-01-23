@@ -6,7 +6,6 @@ const grabIntents = ({ intents }) => intents.map(({ intentName }) => intentName)
 
 async function exportAllfromBot (botName) {
   const botIntents = await exportSingle(BOT, botName).then(grabIntents);
-
   const promiseArray = [];
 
   botIntents.forEach(botIntent => {

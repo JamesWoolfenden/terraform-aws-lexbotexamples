@@ -6,55 +6,67 @@ const exportAllFromBot = require('./export-allfrombot');
 const exportSingle = require('./export-single');
 const exportSlotFromIntent = require('./export-slotfromintent');
 const importSingle = require('./import-single');
+const updateSingle = require('./update-single');
 const writeHost = require('./utils/write-host');
+
+const { EXPORT, EXPORT_ALL_FROM, IMPORT, UPDATE } = ACTION_TYPES;
+const { BOT, INTENT } = RESOURCE_TYPES;
+
+const ERROR_UNKOWN_RESOURCE_TYPE = 'Unkown Resource type';
+const ERROR_UNKOWN_COMMAND = 'Unknown Command';
+const MESSAGE_ACCEPTABLE_VALUES = 'Acceptable values are:';
 
 const actionType = process.argv[2];
 const resourceType = process.argv[3];
 const resourceName = process.argv[4];
 
-const { EXPORT, EXPORT_ALL_FROM, IMPORT } = ACTION_TYPES;
-const { BOT, INTENT } = RESOURCE_TYPES;
+function checkList (list, type) {
+  const resourceList = Object.values(list);
 
-const actionList = Object.values(ACTION_TYPES);
-if (!actionList.includes(actionType)) {
-  writeHost(red('Unkown Action type'));
-  writeHost('Acceptable values are:');
-  actionList.map(value => writeHost(`- ${value}`));
+  if (!resourceList.includes(type)) {
+    writeHost(red(ERROR_UNKOWN_RESOURCE_TYPE));
+    writeHost(MESSAGE_ACCEPTABLE_VALUES);
+    resourceList.map(value => writeHost(`- ${value}`));
 
-  process.exit(1);
+    process.exit(1);
+  }
 }
 
-const resourceList = Object.values(RESOURCE_TYPES);
-if (!resourceList.includes(resourceType)) {
-  writeHost(red('Unkown Resource type'));
-  writeHost('Acceptable values are:');
-  resourceList.map(value => writeHost(`- ${value}`));
-
-  process.exit(1);
-}
+checkList(ACTION_TYPES, actionType);
+checkList(RESOURCE_TYPES, resourceType);
 
 (async function routine () {
   if (actionType === EXPORT_ALL_FROM &&
     resourceType === BOT) {
     await exportAllFromBot(resourceName);
+
     return;
   }
 
   if (actionType === EXPORT_ALL_FROM &&
     resourceType === INTENT) {
     await exportSlotFromIntent(resourceName);
+
     return;
   }
 
   if (actionType === EXPORT) {
     await exportSingle(resourceType, resourceName);
+
     return;
   }
 
   if (actionType === IMPORT) {
     await importSingle(resourceType, resourceName);
+
     return;
   }
 
-  console.log('Unknown Command');
+  if (actionType === UPDATE) {
+    await updateSingle(resourceType, resourceName);
+
+    return;
+  }
+
+  writeHost(red(ERROR_UNKOWN_COMMAND));
 })();

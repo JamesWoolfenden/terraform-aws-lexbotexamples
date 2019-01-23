@@ -1,17 +1,12 @@
-const omit = require('lodash/omit');
 const { blue, green, red } = require('chalk');
+const omit = require('lodash/omit');
 
 const OMIT_DATA = require('./config/omit-data');
-const VERSION_FLAGS = require('./config/version-flags');
-const execute = require('./utils/execute');
+const REGION = require('./config/region');
 const getDate = require('./utils/get-date');
 
-const REGION = 'eu-west-1';
-const VERSION = '$LATEST';
-
 const writeHost = require('./utils/write-host');
-const getSingleResource = (resourceTypeSingle, resourceName) =>
-  execute(`aws lex-models get-${resourceTypeSingle} --region ${REGION} --name ${resourceName} ${VERSION_FLAGS[resourceTypeSingle]} ${VERSION}`);
+const getSingleUnfiltered = require('./get-single-unfiltered');
 
 async function getSingle (resourceTypeSingle, resourceName) {
   const resourceType = `${resourceTypeSingle}s`;
@@ -22,8 +17,7 @@ async function getSingle (resourceTypeSingle, resourceName) {
   try {
     writeHost(`${getDate()} Get ${resourceTypeSingle} details ${resourceName}`);
 
-    const singleResource = await getSingleResource(resourceTypeSingle, resourceName).then(JSON.parse);
-
+    const singleResource = await getSingleUnfiltered(resourceTypeSingle, resourceName);
     const filteredData = omit(singleResource, OMIT_DATA);
 
     return filteredData;
