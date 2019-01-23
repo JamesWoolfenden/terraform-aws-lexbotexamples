@@ -12,7 +12,7 @@ const exportSlot = ({ slotType, slotTypeVersion }) => {
 async function exportSlotFromIntent (intentName) {
   const intentObject = await getSingle(INTENT, intentName);
 
-  await Promise.all(intentObject.slots.map(exportSlot).filter(i => i));
+  return Promise.all(intentObject.slots.map(exportSlot).filter(i => i));
 }
 
 module.exports = exportSlotFromIntent;
