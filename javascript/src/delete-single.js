@@ -7,7 +7,6 @@ const {
   SLOT_TYPE
 } = require('./config/resource.types');
 const execute = require('./utils/execute');
-const getDate = require('./utils/get-date');
 const writeHost = require('./utils/write-host');
 
 const additionalFlags = {
@@ -27,19 +26,19 @@ const deleteSingleResource = (resourceTypeSingle, resourceName, aliasName) => {
 };
 
 async function deleteSingle (resourceType, resourceName, aliasName) {
-  writeHost(blue(`${getDate()} Region: ${REGION}`));
-  writeHost(green(`${getDate()} ${resourceType} Name: ${resourceName}`));
+  writeHost(blue(`Region: ${REGION}`));
+  writeHost(green(`${resourceType} Name: ${resourceName}`));
 
   try {
     const data = await deleteSingleResource(resourceType, resourceName, aliasName);
 
-    writeHost(`${getDate()} ${resourceType} ${resourceName} deleted`);
+    writeHost(`${resourceType} ${resourceName} deleted`);
 
     return data;
   } catch (e) {
-    console.trace(e);
+    writeHost(`${resourceName} Failure`);
 
-    writeHost(`${getDate()} ${resourceName} Failure`);
+    console.trace(e);
 
     process.exit(1);
   }

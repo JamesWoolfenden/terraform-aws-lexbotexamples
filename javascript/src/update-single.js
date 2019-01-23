@@ -7,7 +7,6 @@ const OUTPUT = require('./config/output-directory');
 const EXTENSION = require('./config/output-extension');
 const { BOT } = require('./config/resource.types');
 const execute = require('./utils/execute');
-const getDate = require('./utils/get-date');
 const writeHost = require('./utils/write-host');
 
 const getSingleUnfiltered = require('./get-single-unfiltered');
@@ -23,20 +22,20 @@ const putSingleResource = (resourceTypeSingle, resourceName, resourceChecksum) =
 };
 
 async function importSingle (resourceType, resourceName) {
-  writeHost(blue(`${getDate()} Region: ${REGION}`));
-  writeHost(green(`${getDate()} ${resourceType} Name: ${resourceName}`));
+  writeHost(blue(`Region: ${REGION}`));
+  writeHost(green(`${resourceType} Name: ${resourceName}`));
 
   try {
     const { checksum } = await getSingleUnfiltered(resourceType, resourceName);
     const data = await putSingleResource(resourceType, resourceName, checksum);
 
-    writeHost(`${getDate()} ${resourceType} ${resourceName} updated`);
+    writeHost(`${resourceType} ${resourceName} updated`);
 
     return data;
   } catch (e) {
-    console.trace(e);
+    writeHost(`${resourceName} Failure`);
 
-    writeHost(`${getDate()} ${resourceName} Failure`);
+    console.trace(e);
 
     process.exit(1);
   }

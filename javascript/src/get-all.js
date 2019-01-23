@@ -2,7 +2,6 @@ const { blue, green, red } = require('chalk');
 
 const REGION = require('./config/region');
 const execute = require('./utils/execute');
-const getDate = require('./utils/get-date');
 const writeHost = require('./utils/write-host');
 
 const getAllResource = resourceType =>
@@ -11,19 +10,19 @@ const getAllResource = resourceType =>
 async function getAll (resourceTypeSingle, resourceName) {
   const resourceType = `${resourceTypeSingle}s`;
 
-  writeHost(blue(`${getDate()} Region: ${REGION}`));
-  writeHost(green(`${getDate()} ${resourceType} Name: ${resourceName}`));
+  writeHost(blue(`Region: ${REGION}`));
+  writeHost(green(`${resourceType} Name: ${resourceName}`));
 
   try {
-    writeHost(`${getDate()} Get ${resourceType}`);
+    writeHost(`Get ${resourceType}`);
 
     const resource = await getAllResource(resourceType).then(JSON.parse);
 
     return resource;
   } catch (e) {
-    console.trace(e);
+    writeHost(red(`${resourceName} Failure`));
 
-    writeHost(red(`${getDate()} ${resourceName} Failure`));
+    console.trace(e);
 
     process.exit(1);
   }

@@ -7,9 +7,7 @@ const EXTENSION = require('./config/output-extension');
 const REGION = require('./config/region');
 const { BOT } = require('./config/resource.types');
 const execute = require('./utils/execute');
-const getDate = require('./utils/get-date');
 const writeHost = require('./utils/write-host');
-
 
 const additionalFlags = {
   [BOT]: `--locale ${EN_US} --no-child-directed`
@@ -22,19 +20,19 @@ const putSingleResource = (resourceTypeSingle, resourceName) => {
 };
 
 async function importSingle (resourceType, resourceName) {
-  writeHost(blue(`${getDate()} Region: ${REGION}`));
-  writeHost(green(`${getDate()} ${resourceType} Name: ${resourceName}`));
+  writeHost(blue(`Region: ${REGION}`));
+  writeHost(green(`${resourceType} Name: ${resourceName}`));
 
   try {
     const data = await putSingleResource(resourceType, resourceName);
 
-    writeHost(`${getDate()} ${resourceType} ${resourceName} imported`);
+    writeHost(`${resourceType} ${resourceName} imported`);
 
     return data;
   } catch (e) {
-    console.trace(e);
+    writeHost(`${resourceName} Failure`);
 
-    writeHost(`${getDate()} ${resourceName} Failure`);
+    console.trace(e);
 
     process.exit(1);
   }

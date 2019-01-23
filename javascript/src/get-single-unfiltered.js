@@ -3,7 +3,6 @@ const { red } = require('chalk');
 const REGION = require('./config/region');
 const VERSION_FLAGS = require('./config/version-flags');
 const execute = require('./utils/execute');
-const getDate = require('./utils/get-date');
 const writeHost = require('./utils/write-host');
 
 const VERSION = '$LATEST';
@@ -17,9 +16,9 @@ async function getSingleUnfiltered (resourceTypeSingle, resourceName) {
 
     return singleResource;
   } catch (e) {
-    console.trace(e);
+    writeHost(red(`${resourceName} Failure`));
 
-    writeHost(red(`${getDate()} ${resourceName} Failure`));
+    console.trace(e);
 
     process.exit(1);
   }

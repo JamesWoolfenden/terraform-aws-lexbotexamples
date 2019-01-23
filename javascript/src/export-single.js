@@ -1,4 +1,3 @@
-const getDate = require('./utils/get-date');
 const OUTPUT = require('./config/output-directory');
 const EXTENSION = require('./config/output-extension');
 const writeFile = require('./utils/write-file');
@@ -12,13 +11,13 @@ async function getResource (resourceTypeSingle, resourceName) {
 
     await writeFile([...OUTPUT, resourceTypeSingle, `${resourceName}.${EXTENSION}`], data);
 
-    writeHost(`${getDate()} ${resourceName} exported`);
+    writeHost(`${resourceName} exported`);
 
     return data;
   } catch (e) {
-    console.trace(e);
+    writeHost(`${resourceName} Failure`);
 
-    writeHost(`${getDate()} ${resourceName} Failure`);
+    console.trace(e);
 
     process.exit(1);
   }

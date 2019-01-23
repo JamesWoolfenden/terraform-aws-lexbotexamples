@@ -1,1 +1,1 @@
-module.exports = () => `[${new Date().toLocaleString()}] -`;
+module.exports = () => `[${new Date().toLocaleString()}]`;
