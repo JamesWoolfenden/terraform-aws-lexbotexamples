@@ -2,6 +2,7 @@ const { red } = require('chalk');
 
 const ACTION_TYPES = require('./config/action.types');
 const RESOURCE_TYPES = require('./config/resource.types');
+const deleteSingle = require('./delete-single');
 const exportAllFromBot = require('./export-allfrombot');
 const exportSingle = require('./export-single');
 const exportSlotFromIntent = require('./export-slotfromintent');
@@ -9,7 +10,13 @@ const importSingle = require('./import-single');
 const updateSingle = require('./update-single');
 const writeHost = require('./utils/write-host');
 
-const { EXPORT, EXPORT_ALL_FROM, IMPORT, UPDATE } = ACTION_TYPES;
+const {
+  DELETE,
+  EXPORT_ALL_FROM,
+  EXPORT,
+  IMPORT,
+  UPDATE
+} = ACTION_TYPES;
 const { BOT, INTENT } = RESOURCE_TYPES;
 
 const ERROR_UNKOWN_RESOURCE_TYPE = 'Unkown Resource type';
@@ -19,6 +26,7 @@ const MESSAGE_ACCEPTABLE_VALUES = 'Acceptable values are:';
 const actionType = process.argv[2];
 const resourceType = process.argv[3];
 const resourceName = process.argv[4];
+const aliasName = process.argv[5];
 
 function checkList (list, type) {
   const resourceList = Object.values(list);
@@ -64,6 +72,12 @@ checkList(RESOURCE_TYPES, resourceType);
 
   if (actionType === UPDATE) {
     await updateSingle(resourceType, resourceName);
+
+    return;
+  }
+
+  if (actionType === DELETE) {
+    await deleteSingle(resourceType, resourceName, aliasName);
 
     return;
   }

@@ -7,8 +7,8 @@ const execute = require('./utils/execute');
 const getDate = require('./utils/get-date');
 const writeHost = require('./utils/write-host');
 
-const REGION = 'eu-west-1';
-const EN_US = 'en-US';
+const REGION = require('./config/region');
+const { EN_US } = require('./config/locale');
 
 const additionalFlags = {
   [BOT]: `--locale ${EN_US} --no-child-directed`

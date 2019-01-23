@@ -3,7 +3,7 @@ const { blue, green, red } = require('chalk');
 const execute = require('./utils/execute');
 const getDate = require('./utils/get-date');
 
-const REGION = 'eu-west-1';
+const REGION = require('./config/region');
 
 const writeHost = require('./utils/write-host');
 
