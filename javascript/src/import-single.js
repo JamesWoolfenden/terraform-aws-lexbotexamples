@@ -2,6 +2,8 @@ const path = require('path');
 const { blue, green } = require('chalk');
 
 const OUTPUT = require('./config/output-directory');
+const EXTENSION = require('./config/output-extension');
+
 const { BOT } = require('./config/resource.types');
 const execute = require('./utils/execute');
 const getDate = require('./utils/get-date');
@@ -15,7 +17,7 @@ const additionalFlags = {
 };
 
 const putSingleResource = (resourceTypeSingle, resourceName) => {
-  const filePath = path.join(process.env.PWD, ...OUTPUT, resourceTypeSingle, `${resourceName}.json`);
+  const filePath = path.join(process.env.PWD, ...OUTPUT, resourceTypeSingle, `${resourceName}.${EXTENSION}`);
 
   return execute(`aws lex-models put-${resourceTypeSingle} --region ${REGION} --name ${resourceName} ${additionalFlags[resourceTypeSingle] || ''} --cli-input-json file://${filePath}`);
 };
