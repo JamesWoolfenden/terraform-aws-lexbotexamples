@@ -13,7 +13,7 @@ const writeHost = require('./utils/write-host');
 const getSingleResource = (resourceTypeSingle, resourceName) =>
   execute(`aws lex-models get-${resourceTypeSingle} --region ${REGION} --name ${resourceName} ${VERSION_FLAGS[resourceTypeSingle]} ${VERSION}`);
 
-async function getSingle (resourceTypeSingle, resourceName, write = true) {
+async function getSingle (resourceTypeSingle, resourceName) {
   const resourceType = `${resourceTypeSingle}s`;
 
   writeHost(blue(`${getDate()} Region: ${REGION}`));

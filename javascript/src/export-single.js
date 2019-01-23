@@ -1,14 +1,14 @@
+const OUTPUT = require('./config/output-directory');
 const getSingle = require('./get-single');
 const getDate = require('./utils/get-date');
 const writeFile = require('./utils/write-file');
-
 const writeHost = require('./utils/write-host');
 
 async function getResource (resourceTypeSingle, resourceName) {
   try {
     const data = await getSingle(resourceTypeSingle, resourceName);
 
-    await writeFile(['output', resourceTypeSingle, `${resourceName}.json`], data);
+    await writeFile([...OUTPUT, resourceTypeSingle, `${resourceName}.json`], data);
 
     writeHost(`${getDate()} ${resourceName} exported`);
 
