@@ -1,11 +1,11 @@
 const { blue, green } = require('chalk');
 
+const REGION = require('./config/region');
 const {
   BOT,
   INTENT,
   SLOT_TYPE
 } = require('./config/resource.types');
-const REGION = require('./config/region');
 const execute = require('./utils/execute');
 const getDate = require('./utils/get-date');
 const writeHost = require('./utils/write-host');

@@ -2,13 +2,14 @@ const { red } = require('chalk');
 
 const ACTION_TYPES = require('./config/action.types');
 const RESOURCE_TYPES = require('./config/resource.types');
+const writeHost = require('./utils/write-host');
+
 const deleteSingle = require('./delete-single');
 const exportAllFromBot = require('./export-allfrombot');
 const exportSingle = require('./export-single');
 const exportSlotFromIntent = require('./export-slotfromintent');
 const importSingle = require('./import-single');
 const updateSingle = require('./update-single');
-const writeHost = require('./utils/write-host');
 
 const {
   DELETE,

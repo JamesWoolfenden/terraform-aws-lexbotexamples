@@ -1,10 +1,8 @@
 const { blue, green, red } = require('chalk');
 
+const REGION = require('./config/region');
 const execute = require('./utils/execute');
 const getDate = require('./utils/get-date');
-
-const REGION = require('./config/region');
-
 const writeHost = require('./utils/write-host');
 
 const getAllResource = resourceType =>

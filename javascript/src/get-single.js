@@ -4,8 +4,8 @@ const omit = require('lodash/omit');
 const OMIT_DATA = require('./config/omit-data');
 const REGION = require('./config/region');
 const getDate = require('./utils/get-date');
-
 const writeHost = require('./utils/write-host');
+
 const getSingleUnfiltered = require('./get-single-unfiltered');
 
 async function getSingle (resourceTypeSingle, resourceName) {

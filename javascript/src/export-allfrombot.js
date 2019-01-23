@@ -1,4 +1,5 @@
 const { BOT, INTENT } = require('./config/resource.types');
+
 const exportSlotFromIntent = require('./export-slotfromintent');
 const exportSingle = require('./export-single');
 

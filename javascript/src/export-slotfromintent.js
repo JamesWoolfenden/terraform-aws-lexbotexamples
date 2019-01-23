@@ -1,4 +1,5 @@
 const { INTENT, SLOT_TYPE } = require('./config/resource.types');
+
 const exportSingle = require('./export-single');
 const getSingle = require('./get-single');
 

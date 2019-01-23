@@ -1,7 +1,7 @@
 module.exports = [
-  'version',
-  'status',
-  'lastUpdatedDate',
+  'checksum',
   'createdDate',
-  'checksum'
+  'lastUpdatedDate',
+  'status',
+  'version'
 ];

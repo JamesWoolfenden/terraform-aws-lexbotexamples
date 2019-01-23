@@ -1,9 +1,10 @@
+const getDate = require('./utils/get-date');
 const OUTPUT = require('./config/output-directory');
 const EXTENSION = require('./config/output-extension');
-const getSingle = require('./get-single');
-const getDate = require('./utils/get-date');
 const writeFile = require('./utils/write-file');
 const writeHost = require('./utils/write-host');
+
+const getSingle = require('./get-single');
 
 async function getResource (resourceTypeSingle, resourceName) {
   try {

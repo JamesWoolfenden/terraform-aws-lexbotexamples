@@ -1,16 +1,16 @@
 const path = require('path');
 const { blue, green } = require('chalk');
 
+const REGION = require('./config/region');
+const { EN_US } = require('./config/locale');
 const OUTPUT = require('./config/output-directory');
 const EXTENSION = require('./config/output-extension');
 const { BOT } = require('./config/resource.types');
 const execute = require('./utils/execute');
 const getDate = require('./utils/get-date');
 const writeHost = require('./utils/write-host');
-const getSingleUnfiltered = require('./get-single-unfiltered');
 
-const REGION = require('./config/region');
-const { EN_US } = require('./config/locale');
+const getSingleUnfiltered = require('./get-single-unfiltered');
 
 const additionalFlags = {
   [BOT]: `--locale ${EN_US} --no-child-directed`
