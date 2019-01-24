@@ -24,11 +24,11 @@ npm i
 
 # Developing with hot reload
 #   npm run dev <action> <resource-type> <resource-name> [<bot-alias>]
-npm run dev export-all-from bot AskWilbur
+npm run dev export-all-from bot MyBotProd
 
 # Production
 #   npm start <action> <resource-type> <resource-name> [<bot-alias>]
-npm start export-all-from bot AskWilbur
+npm start export-all-from bot MyBotProd
 
 # For a full list of actions please see above
 ```
