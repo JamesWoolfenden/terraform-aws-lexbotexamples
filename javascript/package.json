@@ -1,0 +1,26 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --ignore output src",
+    "lint": "semistandard --verbose | snazzy",
+    "start": "node src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "execa": "^1.0.0",
+    "json-stringify-pretty-compact": "^1.2.0",
+    "lodash": "^4.17.11",
+    "write": "^1.0.3"
+  },
+  "devDependencies": {
+    "semistandard": "*",
+    "snazzy": "^8.0.0"
+  }
+}
