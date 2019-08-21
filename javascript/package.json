@@ -14,9 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.2",
-    "execa": "^1.0.0",
-    "json-stringify-pretty-compact": "^1.2.0",
-    "lodash": "^4.17.11",
+    "execa": "^2.0.4",
+    "json-stringify-pretty-compact": "^2.0.0",
+    "lodash": "^4.17.15",
     "write": "^1.0.3"
   },
   "devDependencies": {
